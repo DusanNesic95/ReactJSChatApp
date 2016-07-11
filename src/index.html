@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>React - Template</title>
+    <script src="js/react.js"></script>
+    <script src="js/react-dom.min.js"></script>
+    <script src="js/browser.min.js"></script>
+</head>
+<body>
+
+    <div id="container"></div>
+
+    <script type="text/babel">
+      var MainSiteComponent = React.createClass({
+        render: function() {
+          return (
+            <h1 className="mainSite">This is where your site goes!</h1>
+          );
+        }
+      });
+
+      var ChatArea = React.createClass({
+        getInitialState: function() {
+          return {activated: false};
+        },
+        activateChat: function() {
+          this.setState({activated : !this.state.activated});
+        },
+        renderActive: function() {
+          return (
+            <div>
+              <div className="chatMessages">
+                <div className="messages">
+                  <MessageList />
+                </div>
+              </div>
+              <div className="chat" onClick={this.activateChat}>
+                <p>Online</p>
+              </div>
+            </div>
+          );
+        },
+        renderInactive: function() {
+          return (
+            <div className="chat" onClick={this.activateChat}>
+              <p>Online</p>
+            </div>
+          );
+        },
+        render: function() {
+          if (this.state.activated) {
+            return this.renderActive();
+          } else {
+            return this.renderInactive();
+          }
+        }
+      });
+
+      var MessageList = React.createClass({
+        getInitialState: function() {
+          return {
+            messages: []
+          }
+        },
+        addMessage: function() {
+          var newText = this.refs.userInput.value;
+          var tempArr = this.state.messages;
+          tempArr.push(newText);
+          this.refs.userInput.value = "";
+          this.setState({messages: tempArr});
+        },
+        eachMessage: function(text, i) {
+          return (
+            <div>
+              <Message key={i} index={i} >{text}</Message>
+              <Answer>Hi and welcome</Answer>
+            </div>
+          );
+        },
+        render: function() {
+          return (
+            <div>
+              <div>{this.state.messages.map(this.eachMessage)}</div>
+              <div className="commands">
+                <input ref="userInput" type="text" placeholder="Your message" className="form-control userInput"></input>
+                <button className="btn btn-primary userBtn" onClick={this.addMessage} >Send</button>
+              </div>
+            </div>
+          );
+        }
+      });
+
+      var Message = React.createClass({
+        render: function() {
+          return (
+            <div className="message">
+              <p>{this.props.children}</p>
+            </div>
+          );
+        }
+      });
+
+      var Answer = React.createClass({
+        render: function() {
+          return (
+            <div className="answer">
+              <p>{this.props.children}</p>
+            </div>
+          );
+        }
+      });
+
+      var Display = React.createClass({
+        render: function() {
+          return (
+            <div>
+              <MainSiteComponent />
+              <ChatArea />
+            </div>
+          );
+        }
+      });
+
+      ReactDOM.render(<Display />, document.getElementById('container'));
+    </script>
+
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+</body>
+</html>
