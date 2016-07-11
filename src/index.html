@@ -84,8 +84,8 @@
             <div>
               <div>{this.state.messages.map(this.eachMessage)}</div>
               <div className="commands">
-                <input ref="userInput" type="text" placeholder="Your message" className="form-control userInput"></input>
-                <button className="btn btn-primary userBtn" onClick={this.addMessage} >Send</button>
+                  <button className="btn userBtn" onClick={this.addMessage} >Send</button>
+                  <input ref="userInput" type="text" placeholder="Your message" className="form-control userInput"></input>
               </div>
             </div>
           );
